@@ -1,10 +1,11 @@
 # src/config.py
 import os
-from os import path, environ
-from dotenv import load_dotenv                         # new
+from os import path
 
-basedir = path.abspath(os.path.dirname(__file__))      # new
-load_dotenv(path.join(basedir, "../.env"))                # new
+from dotenv import load_dotenv  # new
+
+basedir = path.abspath(os.path.dirname(__file__))  # new
+load_dotenv(path.join(basedir, "../.env"))  # new
 
 
 class BaseConfig:
@@ -14,16 +15,16 @@ class BaseConfig:
 
 
 class DevelopmentConfig(BaseConfig):
-    SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL')
+    SQLALCHEMY_DATABASE_URI = os.environ.get("DATABASE_URL")
 
 
 class TestingConfig(BaseConfig):
     TESTING = True
-    SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_TEST_URL')  # new
+    SQLALCHEMY_DATABASE_URI = os.environ.get("DATABASE_TEST_URL")  # new
 
 
 class ProductionConfig(BaseConfig):
-    SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL')  # new
+    SQLALCHEMY_DATABASE_URI = os.environ.get("DATABASE_URL")  # new
     url = os.environ.get("DATABASE_URL")
     if url is not None:
         if url.startswith("postgres://"):
