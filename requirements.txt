@@ -6,3 +6,4 @@ pytest==6.2.3
 gunicorn==20.0.4
 python-dotenv==0.14.0
 httpie==2.4.0
+pytest-cov==2.10.1
