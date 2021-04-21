@@ -168,20 +168,16 @@ def test_update_user_invalid(
     assert message in data["message"]
 
 
-def test_update_user(test_app, test_database, add_user):
-    user = add_user("user-to-be-updated", "update-me@testdriven.io")
+def test_update_user_duplicate_email(test_app, test_database, add_user):
+    add_user("hajek", "rob@hajek.org")
+    user = add_user("rob", "rob@notreal.com")
+
     client = test_app.test_client()
-    resp_one = client.put(
+    resp = client.put(
         f"/users/{user.id}",
-        data=json.dumps({"username": "me", "email": "me@testdriven.io"}),
+        data=json.dumps({"username": "rob", "email": "rob@notreal.com"}),
         content_type="application/json",
     )
-    data = json.loads(resp_one.data.decode())
-    assert resp_one.status_code == 200
-    assert f"{user.id} was updated!" in data["message"]
-
-    resp_two = client.get(f"/users/{user.id}")
-    data = json.loads(resp_two.data.decode())
-    assert resp_two.status_code == 200
-    assert "me" in data["username"]
-    assert "me@testdriven.io" in data["email"]
+    data = json.loads(resp.data.decode())
+    assert resp.status_code == 400
+    assert "Sorry. That email already exists." in data["message"]
