@@ -30,3 +30,4 @@ class ProductionConfig(BaseConfig):
         if url.startswith("postgres://"):
             url = url.replace("postgres://", "postgresql://", 1)
     SQLALCHEMY_DATABASE_URI = url
+    SECRET_KEY = os.environ.get("SECRET_KEY")
